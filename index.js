@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const express = require("express");
 const cors = require("cors");
 const port = process.env.PORT || 5000;
@@ -28,15 +28,26 @@ async function run() {
 
     const visaCollection = client.db("visaDB").collection("allVisas");
 
+    // all visa collection api
+    // post all visas
     app.post("/allVisas", async (req, res) => {
       const allVisa = req.body;
       const result = await visaCollection.insertOne(allVisa);
       res.send(result);
     });
 
+    // get all visa api
     app.get("/allVisas", async (req, res) => {
       const cursor = visaCollection.find();
       const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // get individual visa api by id
+    app.get("/allVisas/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await visaCollection.findOne(query);
       res.send(result);
     });
 
