@@ -27,6 +27,9 @@ async function run() {
     // await client.connect();
 
     const visaCollection = client.db("visaDB").collection("allVisas");
+    const appliedUsersCollection = client
+      .db("visaDB")
+      .collection("appliedUsers");
 
     // all visa collection api
     // post all visas
@@ -51,8 +54,21 @@ async function run() {
       res.send(result);
     });
 
-    // Send a ping to confirm a successful connection
-    // await client.db("admin").command({ ping: 1 });
+    // appliedUsers api
+    // post
+    app.post("/appliedUsers", async (req, res) => {
+      const appliedUsers = req.body;
+      const result = await appliedUsersCollection.insertOne(appliedUsers);
+      res.send(result);
+    });
+
+    // get all applied users
+    app.get("/appliedUsers", async (req, res) => {
+      const cursor = appliedUsersCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
