@@ -95,7 +95,14 @@ async function run() {
 
     // get all applied users
     app.get("/appliedUsers", async (req, res) => {
-      const cursor = appliedUsersCollection.find();
+      // search func
+      const { search } = req.query;
+      let option = {};
+      if (search) {
+        option = { countryName: { $regex: search, $options: "i" } };
+      }
+
+      const cursor = appliedUsersCollection.find(option);
       const result = await cursor.toArray();
       res.send(result);
     });
