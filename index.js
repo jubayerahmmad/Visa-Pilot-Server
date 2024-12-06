@@ -100,6 +100,22 @@ async function run() {
       res.send(result);
     });
 
+    // get appliedUser details by id
+    app.get("/appliedUsers/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await appliedUsersCollection.findOne(query);
+      res.send(result);
+    });
+
+    // delete applied users by id
+    app.delete("/appliedUsers/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await appliedUsersCollection.deleteOne(query);
+      res.send(result);
+    });
+
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
