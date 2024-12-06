@@ -54,6 +54,14 @@ async function run() {
       res.send(result);
     });
 
+    // delete visa by id
+    app.delete("/allVisas/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await visaCollection.deleteOne(query);
+      res.send(result);
+    });
+
     // appliedUsers api
     // post
     app.post("/appliedUsers", async (req, res) => {
