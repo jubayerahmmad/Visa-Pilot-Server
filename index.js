@@ -54,6 +54,29 @@ async function run() {
       res.send(result);
     });
 
+    // update by id
+    app.patch("/allVisas/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const visas = req.body;
+      const updatedVisas = {
+        $set: {
+          countryName: visas.countryName,
+          countryImage: visas.countryImage,
+          visaType: visas.visaType,
+          processingTime: visas.processingTime,
+          requiredDocuments: visas.requiredDocuments,
+          description: visas.description,
+          ageRestriction: visas.ageRestriction,
+          fee: visas.fee,
+          validity: visas.validity,
+          applicationMethod: visas.applicationMethod,
+        },
+      };
+      const result = await visaCollection.updateOne(query, updatedVisas);
+      res.send(result);
+    });
+
     // delete visa by id
     app.delete("/allVisas/:id", async (req, res) => {
       const id = req.params.id;
