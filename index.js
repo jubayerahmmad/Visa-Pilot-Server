@@ -55,22 +55,22 @@ async function run() {
     });
 
     // update by id
-    app.put("/allVisas/:id", async (req, res) => {
+    app.patch("/allVisas/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const visas = req.body;
       const updatedVisas = {
         $set: {
-          countryName: visas.countryName,
-          countryImage: visas.countryImage,
-          visaType: visas.visaType,
-          processingTime: visas.processingTime,
-          requiredDocuments: visas.requiredDocuments,
-          description: visas.description,
-          ageRestriction: visas.ageRestriction,
-          fee: visas.fee,
-          validity: visas.validity,
-          applicationMethod: visas.applicationMethod,
+          countryName: visas?.countryName,
+          countryImage: visas?.countryImage,
+          visaType: visas?.visaType,
+          processingTime: visas?.processingTime,
+          requiredDocuments: visas?.requiredDocuments,
+          description: visas?.description,
+          ageRestriction: visas?.ageRestriction,
+          fee: visas?.fee,
+          validity: visas?.validity,
+          applicationMethod: visas?.applicationMethod,
         },
       };
       const result = await visaCollection.updateOne(query, updatedVisas);
